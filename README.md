@@ -104,12 +104,12 @@ $chartOptions = [ .... 'options'=> [ /* other options here */ ] ];
 
 ```
 
-### Author
-
-[Marnus van Niekerk](https://github.com/mvnrsa) - [mvnrsa](https://github.com/mvnrsa) - [laravel@mjvn.net](mailto:laravel@mjvn.net)
+### Coffee
 
 One of my favorite escapes from coding and business is taking my wife for a **coffee** (which is pretty cheap in South Africa).
 
 If you use this package please think about how much time and effort you saved and **[buy us a coffee ☕](https://www.buymeacoffee.com/mvnrsa)**.
 
 Tx!
+
+[Marnus van Niekerk](https://github.com/mvnrsa) - [mvnrsa](https://github.com/mvnrsa) - [laravel@mjvn.net](mailto:laravel@mjvn.net)
