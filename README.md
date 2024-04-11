@@ -43,8 +43,6 @@ You have to start by prepairing a builder that will fetch your data every time t
 $builder = Model::select('column',DB::raw("count(*) as cnt"))
                  ->groupBy('column')
                  ->orderBy('column');
-
-$chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2, 'width'=>500, height=>250 ];
 ```
 
 ### This builder will give you nice random data for testing:
