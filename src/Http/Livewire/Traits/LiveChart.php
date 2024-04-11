@@ -78,8 +78,6 @@ trait LiveChart
 			else
 				$this->optionsArray['pieHole'] = 0.4;
 		}
-
-		dump($this->optionsArray);
 	}
 
 	// Unfortunately we can not cache the builder, so we have to cache the query, bindings and connection instead
