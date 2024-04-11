@@ -28,7 +28,7 @@ trait LiveChart
 	// This method must be overwritten in the component
 	private function getData()
 	{
-		throw new Exception(class_basename($this) . "->getData() must be overwitten to return the correct data");
+		throw new Exception(class_basename($this) . "->getData() must be overwitten to return the correct data!");
 	}
 
 	// Initialise the uuid, poll interval and data
@@ -53,10 +53,7 @@ trait LiveChart
 			$this->chartData = $this->getData();
 		}
 		else
-		{
-			$this->chartData = [];
-			$this->poll = 0;
-		}
+			throw new Exception(class_basename($this) . "->builder muist be a query builder!");
 
 		// Chart colors
 		if (is_array($this->colors))
