@@ -64,7 +64,7 @@ $builder = Model::->select( 'column',
 $chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2, 'width'=>500, height=>250, /* ... */ ];
 ```
 - title should be obvious
-- builder is the builder instance (without get()!)
+- builder is the builder instance (without `->get()`!)
 - poll is in seconds
 - width and height can be anything that HTML / Google charts will understand - px, %, em, etc.
 - is3D (true/false) make some charts 3D
