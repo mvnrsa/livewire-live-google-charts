@@ -33,10 +33,10 @@ You have to add `@lagoonScripts` and `@lagoonStyles` from the lagoon-charts pack
 @lagoonScripts({{ app()->getLocale() }})
 ```
 
-## Obtaining the data
+## Obtaining the Data
 The package uses a cached query builder to query the database and fetch the data.  Actually only the query, bindings and connection is cached because we can not cache the builder class(es) between requests.
 
-You have to start by prepairing a builder that will fetch your data every time the data need to be refreshed.
+You have to start by prepairing a builder that will fetch your data every time the data needs to be refreshed.
 
 ### Something like this:
 ```
@@ -44,22 +44,32 @@ $builder = Model::select('column',DB::raw("count(*) as cnt"))
                  ->groupBy('column')
                  ->orderBy('column');
 
-$chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2 ];
+$chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2, 'width'=>500, height=>250 ];
 ```
 
-### This builder will give you random data for testing:
+### This builder will give you nice random data for testing:
 ```
 $builder = Model::->select( 'column',
                             DB::raw('FLOOR(1+rand()*10) AS `cnt 1`'),
                             DB::raw('FLOOR(1+rand()*10) AS `cnt 2`'),
                             // DB::raw('FLOOR(1+rand()*10) AS `cnt 3`'),
-                            // DB::raw('FLOOR(1+rand()*10) AS `cnt 4`')
+                            // etc.
                           )
                     ->orderBy('column')
                     ->groupBy('column');
-
-$chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2 ];
 ```
+
+## Configure the Chart
+```
+$chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2, 'width'=>500, height=>250, /* ... */ ];
+```
+- title should be obvious
+- builder is the builder instance (without get()!)
+- poll is in seconds
+- width and height can be anything that HTML / Google charts will understand - px, %, em, etc.
+- is3D (true/false) make some charts 3D
+- colors provide a color pallette
+- pieHole (0.0 to 1.0) controls the relative size of the pie hole for donut charts
 
 ## Blade
 ```
@@ -85,20 +95,6 @@ Any color that will work in HTML will work eg:
 ```
 $colors = ['red,'#00ff00','#0000ff','pink','cyan'];
 $chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2, 'colors'=>$colors ];
-```
-
-## 3D Charts
-
-Some charts can be made 3D by adding `'is3D'=>true` to the options.
-```
-$chartOptions = [ .... 'is3D'=>true ];
-```
-
-## Donut Charts
-
-The relative size of the pieHole will default to 0.4, but can be set by including a `pieHole` option in the options.
-```
-$chartOptions = [ .... 'pieHole'=>0.6 ];
 ```
 
 ## Other Google Options
