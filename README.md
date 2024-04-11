@@ -36,7 +36,7 @@ You have to add `@lagoonScripts` and `@lagoonStyles` from the lagoon-charts pack
 ## Obtaining the data
 The package uses a cached query builder to query the database and fetch the data.  Actually only the query, bindings and connection is cached because we can not cache the builder class(es) between requests.
 
-You have to start by prepairing a builder that will fetch your data every time the query is refreshed.
+You have to start by prepairing a builder that will fetch your data every time the data need to be refreshed.
 
 ### Something like this:
 ```
