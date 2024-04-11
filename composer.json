@@ -1,0 +1,27 @@
+{
+    "name": "mvnrsa/livewire-live-google-charts",
+    "description": "Live Google Charts for Laravel Livewire 3 (Auto refresh/poll)",
+    "type": "library",
+    "require": {
+        "helvetitec/lagoon-charts": "^2.2"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "mvnrsa\\LiveCharts\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Marnus van Niekerk",
+            "email": "laravel@mjvn.net"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "mvnrsa\\LiveCharts\\LiveChartsServiceProvider"
+            ]
+        }
+    }
+}
