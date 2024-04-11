@@ -49,10 +49,12 @@ $chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2 ];
 
 ### This builder will give you random data for testing:
 ```
-$builder = Model::->select('column',
-                                    DB::raw('FLOOR(1+rand()*10) AS `cnt 1`'),DB::raw('FLOOR(1+rand()*10) AS `cnt 2`'),
-                                    // DB::raw('FLOOR(1+rand()*10) AS `cnt 3`'),DB::raw('FLOOR(1+rand()*10) AS `cnt 4`')
-                            )
+$builder = Model::->select( 'column',
+                            DB::raw('FLOOR(1+rand()*10) AS `cnt 1`'),
+                            DB::raw('FLOOR(1+rand()*10) AS `cnt 2`'),
+                            // DB::raw('FLOOR(1+rand()*10) AS `cnt 3`'),
+                            // DB::raw('FLOOR(1+rand()*10) AS `cnt 4`')
+                          )
                     ->orderBy('column')
                     ->groupBy('column');
 
