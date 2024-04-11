@@ -90,6 +90,9 @@ $chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2, 'color
 ## 3D Charts
 
 Some charts can be made 3D by adding `'is3D'=>true` to the options.
+```
+$chartOptions = [ .... 'is3D'=>true ];
+```
 
 ## Donut Charts
 
