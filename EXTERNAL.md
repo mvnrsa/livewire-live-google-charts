@@ -3,15 +3,17 @@ To use an external data source, such as a third party API, just extend one of th
 a `getExternalData()` method to your component.
 
 ```
-use mvnrsa\LiveCharts\Http\Livewire\LiveCharts\PieCharts;
+use mvnrsa\LiveCharts\Http\Livewire\LiveCharts\PieChart;
 
 class MyExternalChart extends PieChart
 {
-	public function getExternalData()
+    public function getExternalData()
     {
-		$chartData = [];    // two dimensional array
-		// ...
-		return $chartData; 
+        $chartData = [];    // two dimensional array
+
+        // do whatever it takes ...
+
+        return $chartData; 
     }
 }
 ```
