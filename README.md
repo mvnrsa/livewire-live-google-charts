@@ -74,11 +74,12 @@ See [EXTERNAL.md](EXTERNAL.md) for more details.
 
 ## Configure the Chart
 ```
-$chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2, 'width'=>500, height=>250, /* ... */ ];
+$chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2,
+                  'width'=>500, height=>250, /* ... */ ];
 ```
 - title should be obvious
 - builder is the builder instance (without `->get()`!)
-- poll is in seconds
+- poll is in seconds - 0 means no polling/refresh
 - width and height can be anything that HTML / Google charts will understand - px, %, em, etc.
 - is3D (true/false) make some charts 3D
 - colors provide a color pallette
