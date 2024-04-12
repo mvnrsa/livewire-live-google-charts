@@ -27,7 +27,7 @@ array with the data.
 ```
 
 ### Data Structure
-For a Pie or Donut chart each element in the array must have two elements, a string label and a numeric value:
+For a Pie or Donut chart, each element in the array must have two elements, a string label and a numeric value:
 ```
     $data = [
                [ 'Category A', 1 ],
@@ -36,7 +36,7 @@ For a Pie or Donut chart each element in the array must have two elements, a str
             ];
 ```
 
-For all other chart types the first element of the array must contain the labels followed by the actaul data:
+For all other chart types, the first element of the array must contain the labels followed by the actual data:
 ```
     $data = [
                 [ 'X Label', 'Series 1', 'Series 2', /* ... */ ],
