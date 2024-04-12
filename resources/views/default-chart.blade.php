@@ -87,5 +87,5 @@
 				{{ $printButtonText }}
 			</div>
 	    @endif
-	<div>
+	</div>
 </div>
