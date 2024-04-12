@@ -17,7 +17,7 @@ One of my favorite escapes from coding and business is taking my wife for a **co
 (Which is pretty cheap in sunny South Africa).
 
 If you use this package please think about how much time and effort you saved and
-**[buy us a coffee](https://www.buymeacoffee.com/mvnrsa)**.  ☕
+**<a href='https://www.buymeacoffee.com/mvnrsa' target='_blank'>buy us a coffee</a>**.  ☕
 
 ## Requirements
 
