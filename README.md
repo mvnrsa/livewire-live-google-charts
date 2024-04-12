@@ -7,11 +7,17 @@ Auto refresh/poll charts.
 
 Note that the component is only drawn the first time and thereafter only the data is updated on every poll, so the data used for polling is significantly less and the chart is just **updated, not recreated** every time.
 
-## Credit to Helvetitec
+### Credit to Helvetitec
 This package is an extension of the excellent [Helvetitec/lagoon-charts](https://github.com/Helvetitec/lagoon-charts) Google charts package by [Helvetitec](https://github.com/Helvetitec).  
 Except these ones are "live" :-)
 
-If you are only looking for static charts, just use their package because this one requires it anyway.
+### Coffee? ☕
+
+One of my favorite escapes from coding and business is taking my wife for a **coffee**. 
+(Which is pretty cheap in sunny South Africa).
+
+If you use this package please think about how much time and effort you saved and
+**[buy us a coffee](https://www.buymeacoffee.com/mvnrsa)**.  ☕
 
 ## Requirements
 
@@ -30,11 +36,14 @@ You have to add `@lagoonScripts` and `@lagoonStyles` from the lagoon-charts pack
 ```
 ```
 @lagoonScripts('en')
+// or
 @lagoonScripts({{ app()->getLocale() }})
 ```
 
 ## Obtaining the Data
-The package uses a cached query builder to query the database and fetch the data.  Actually only the query, bindings and connection is cached because we can not cache the builder class(es) between requests.
+The package uses a cached query builder (or any external data source) to query the database and fetch the data.
+Actually only the query, bindings and connection is cached because we can not cache the builder class(es)
+between requests.
 
 You have to start by prepairing a builder that will fetch your data every time the data needs to be refreshed.
 
@@ -56,6 +65,12 @@ $builder = Model::select( 'column',
                     ->orderBy('column')
                     ->groupBy('column');
 ```
+
+### External Data Sources:
+To use an external data source, such as a third party API, just extend one of the chart components and add
+a `getExternalData()` method to your component.
+
+See [EXTERNAL.md](EXTERNAL.md) for more details.
 
 ## Configure the Chart
 ```
@@ -102,11 +117,7 @@ $chartOptions = [ .... 'options'=> [ /* other options here */ ] ];
 
 ```
 
-### Coffee
-
-One of my favorite escapes from coding and business is taking my wife for a **coffee** (which is pretty cheap in South Africa).
-
-If you use this package please think about how much time and effort you saved and **[buy us a coffee ☕](https://www.buymeacoffee.com/mvnrsa)**.
+--
 
 Tx!
 

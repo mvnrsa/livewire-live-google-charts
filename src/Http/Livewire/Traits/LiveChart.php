@@ -47,13 +47,18 @@ trait LiveChart
 			$this->poll = 0;
 
 		// Chart data
-		if ( $this->builder instanceof QueryBuilder || $this->builder instanceof EloquentBuilder )
+		if (method_exists($this,"getExternalData"))
+		{
+			$this->chartType = class_basename((get_parent_class($this)));
+			$this->chartData = $this->getExternalData();
+		}
+		elseif ( $this->builder instanceof QueryBuilder || $this->builder instanceof EloquentBuilder )
 		{
 			$this->cacheBuilder();
 			$this->chartData = $this->getData();
 		}
 		else
-			throw new Exception(class_basename($this) . "->builder muist be a query builder!");
+			throw new Exception($this->chartType . "->builder muist be a query builder!");
 
 		// Chart colors
 		if (is_array($this->colors))
@@ -103,9 +108,14 @@ trait LiveChart
 	// Dispatch event and data for chart update
 	public function updateChart()
 	{
-		// Get the cached query with it's bindings from the cache
-		if ($cached = Cache::get("builder-$this->uuid"))
+		if (method_exists($this,"getExternalData"))
 		{
+			// Get new data from external source
+			$this->chartData = $this->getExternalData();
+		}
+		elseif ($cached = Cache::get("builder-$this->uuid"))
+		{
+			// Get the cached query with it's bindings from the cache
 			list($this->query, $this->bindings, $this->connection) = array_values($cached);
 
 			// Fetch the new data from the database
