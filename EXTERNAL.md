@@ -13,13 +13,14 @@ class MyExternalChart extends PieChart
 
         // do whatever it takes ...
 
+		// For Pie and Donut you have to set the column names
+		$this->coloumn1 = "Text";
+		$this->coloumn2 = "Text";
+
         return $chartData; 
     }
 }
 ```
-
-The `getExternalData()` method has to do whatevever it needs to do the get the data and then return a two dimensional
-array with the data.
 
 ### Blade
 ```
@@ -27,7 +28,10 @@ array with the data.
 ```
 
 ### Data Structure
-For a Pie or Donut chart, each element in the array must have two elements, a string label and a numeric value:
+The `getExternalData()` method has to do whatevever it needs to do the get the data and then return a two dimensional
+array with the data.
+
+For a Pie or Donut chart, each array within the array must have two elements, a string label and a numeric value:
 ```
     $data = [
                [ 'Category A', 1 ],
@@ -36,7 +40,8 @@ For a Pie or Donut chart, each element in the array must have two elements, a st
             ];
 ```
 
-For all other chart types, the first element of the array must contain the labels followed by the actual data:
+For all other chart types, the first array within the array must contain the labels followed by arrays
+with the actual data:
 ```
     $data = [
                 [ 'X Label', 'Series 1', 'Series 2', /* ... */ ],

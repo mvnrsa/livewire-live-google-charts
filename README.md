@@ -70,7 +70,7 @@ $builder = Model::select( 'column',
 To use an external data source, such as a third party API, just extend one of the chart components and add
 a `getExternalData()` method to your component.
 
-See [EXTERNAL.md](EXTERNAL.md) for more details.
+See [EXTERNAL](EXTERNAL.md) for more details.
 
 ## Configure the Chart
 ```
