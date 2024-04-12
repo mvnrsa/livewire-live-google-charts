@@ -49,7 +49,7 @@ trait LiveChart
 		// Chart data
 		if (method_exists($this,"getExternalData"))
 		{
-			$this->chartType = class_basename((get_parent_class($this)));
+			$this->chartType = class_basename(get_parent_class($this));
 			$this->chartData = $this->getExternalData();
 		}
 		elseif ( $this->builder instanceof QueryBuilder || $this->builder instanceof EloquentBuilder )
