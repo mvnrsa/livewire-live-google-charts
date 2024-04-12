@@ -58,7 +58,7 @@ trait LiveChart
 			$this->chartData = $this->getData();
 		}
 		else
-			throw new Exception($this->chartType . "->builder muist be a query builder!");
+			throw new Exception($this->chartType . "->builder must be a query builder!");
 
 		// Chart colors
 		if (is_array($this->colors))
@@ -112,6 +112,9 @@ trait LiveChart
 		{
 			// Get new data from external source
 			$this->chartData = $this->getExternalData();
+
+			// Dispatch an event to update the chart
+			$this->dispatch("update-chart-$this->uuid", $this->chartData);
 		}
 		elseif ($cached = Cache::get("builder-$this->uuid"))
 		{
