@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 trait LiveChart
 {
-	public $poll = 0;	// Default is no refresh
+	public $poll;		// Default is no refresh
 	public $uuid;		// Need a fixed, unique id for every chart for updates
 	public $builder;	// Must be public to auto set from template unfortunately
 	public $chartType;	// Type of chart to render
@@ -46,9 +46,9 @@ trait LiveChart
 		$this->chartType = class_basename($this);
 		$this->printButtonText = trans('Print');
 
-		// Failsafe - in case a non numeric poll interval was passed from template
+		// Failsafe - in case no or non numeric poll interval was passed from template
 		if (!is_numeric($this->poll))
-			$this->poll = 0;
+			$this->poll = config('livecharts.default_poll',2);
 
 		// Chart data
 		if (method_exists($this,"getExternalData"))
@@ -172,7 +172,7 @@ trait LiveChart
 	{
 		if (empty($this->jsType))
 		{
-			$this->jsType = explode("-", Str::kebab($this->chartType))[0];
+			$this->jsType = explode("-", Str::kebab($this->chartType))[0];	// First word of kebab (lowercase) class name
 
 			if ($this->jsType == 'column')
 				$this->jsType = 'bar';
