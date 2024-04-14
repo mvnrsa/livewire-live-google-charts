@@ -1,10 +1,13 @@
 <div>
-    <div id="{{ $uuid }}" @if($poll > 0) wire:poll.{{ $poll }}s="updateChart" @endif
-			style="height:{{ $height }}; width:{{ $width }};">
+	@once
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	@endonce
+
+    <div id="{{ $uuid }}"
+			@if($poll > 0) wire:poll.{{ $poll }}s="updateChart" @endif
+			style="@if(!empty($height)) height:{{ $height }}{{ is_numeric($height) ? 'px' : '' }}; @endif @if(!empty($width)) width:{{ $width }}{{ is_numeric($width) ? 'px' : '' }}; @endif">
 		<canvas id="canvas{{ $uuid }}"></canvas>
 	</div>
-
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script type="text/javascript">
 		// Chart var, data and options
@@ -25,11 +28,13 @@
 					datasets: chartData{{ $uuid }},
 				},
 				options: {
-					scales: {
-						y: {
-							beginAtZero: true
+					scales: { y: { beginAtZero: true } },
+					plugins: {
+								title: {
+											display: {{ !empty($title) ? 'true' : 'false' }},
+											text: '{{ $title }}'
+									}
 						}
-					}
 				}
 			});
         }
@@ -37,14 +42,14 @@
 		drawChart{{ $uuid }}();
 
 		@if ($poll > 0)
-			// callback that redraws the chart
+			// Function that redraws the chart
 	        function redrawChart{{ $uuid }}(newData) {
 				console.log('redraw chart{{ $uuid }}');
 				chart{{ $uuid }}.data.datasets = newData;
 	            chart{{ $uuid }}.update('none');
 	        }
 
-			// event listener for updates
+			// Event listener for updates
 			document.addEventListener('livewire:init', () => {
 				Livewire.on('update-chart-{{ $uuid }}', (event) => {
 					redrawChart{{ $uuid }}(event[0]);
