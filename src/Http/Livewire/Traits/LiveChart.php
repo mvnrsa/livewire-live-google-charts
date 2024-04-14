@@ -66,14 +66,15 @@ trait LiveChart
 
 		// Chart colors
 		if (is_array($this->colors))
-		{
 			$this->optionsArray['colors'] = $this->colors;
-			$this->colours = null;	// remove it from round trips
-		}
+		elseif (is_array($colors = config('livecharts.colors')))
+			$this->optionsArray['colors'] = $colors;
+		$this->colours = null;	// remove it from round trips
 
 		// 3D chart
 		if ($this->is3D === true)
 			$this->optionsArray['is3D'] = true;
+			
 
 		// DonutChart
 		if (class_basename($this) == 'DonutChart')
@@ -167,12 +168,12 @@ trait LiveChart
     }
 
 	// Convert data for ChartJS library
-	// This is a bit ugly and it assumes numeric array keys
+	// This is a bit ugly because it traverses the arrays and it assumes numeric array keys
 	private function convertDataForChartJs()
 	{
 		if (empty($this->jsType))
 		{
-			$this->jsType = explode("-", Str::kebab($this->chartType))[0];	// First word of kebab (lowercase) class name
+			$this->jsType = explode("-", Str::kebab($this->chartType))[0];	// First word of kebab (lowercase) classname
 
 			if ($this->jsType == 'column')
 				$this->jsType = 'bar';
@@ -183,10 +184,20 @@ trait LiveChart
 		$newData = [];
 		$this->labels = [];
 
-		// Initialise datasets
+		// Initialise datasets & colors
 		foreach ($this->chartData[0] as $key => $label)
 			if ($key > 0)
-				$newData[$key-1] = [ 'label'=>$label, 'borderWidth'=>$this->options['borderWidth'] ?? 1 ];
+			{
+				$newData[$key-1] = [
+									'label'=>$label,
+									'borderWidth'=>$this->options['borderWidth'] ?? config('livecharts.borderWidth',1),
+								   ];
+				if (is_array($this->colors))
+				{
+					$newData[$key-1]['backgroundColor'] = $this->colors[$key%count($this->colors)];
+					$newData[$key-1]['borderColor'] = $newData[$key-1]['backgroundColor'];
+				}
+			}
 
 		// Convert actual data
 		unset($this->chartData[0]);
