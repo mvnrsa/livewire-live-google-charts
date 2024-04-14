@@ -28,7 +28,9 @@
 					datasets: chartData{{ $uuid }},
 				},
 				options: {
-					scales: { y: { beginAtZero: true } },
+					@if (!in_array($jsType,['pie','doughnut']))
+						scales: { y: { beginAtZero: true } },
+					@endif
 					plugins: {
 								title: {
 											display: {{ !empty($title) ? 'true' : 'false' }},
