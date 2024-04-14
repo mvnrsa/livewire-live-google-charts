@@ -21,6 +21,9 @@ trait LiveChart
 	public $is3D = false;
 	public $pieHole = 0;
 
+	public $library;	// Chart library to use google/chartjs
+	public $labels = [];// Labels for chartjs charts
+
 	private $query;
 	private $bindings;
 	private $connection;
@@ -80,6 +83,13 @@ trait LiveChart
 			else
 				$this->optionsArray['pieHole'] = 0.4;
 		}
+
+		// Chart library
+		$this->library = strtolower($this->library ?? config('livecharts.default_library','google'));
+
+		// Convert for ChartJS
+		if ($this->library == 'chartjs')
+			$this->convertDataForChartJs();
 	}
 
 	// Unfortunately we can not cache the builder, so we have to cache the query, bindings and connection instead
@@ -105,6 +115,21 @@ trait LiveChart
 		return [ $data, $keys ];
 	}
 
+	// Convert data for ChartJS library
+	private function convertDataForChartJs()
+	{
+		$this->labels = [];
+
+		// This is a bit ugly and it assumes numeric array keys
+		unset($this->chartData[0]);
+		foreach ($this->chartData as $key => $row)
+		{
+			$this->labels[] = $row[0];
+
+			unset ($this->chartData[$key][0]);
+		}
+	}
+
 	// Dispatch event and data for chart update
 	public function updateChart()
 	{
@@ -112,6 +137,10 @@ trait LiveChart
 		{
 			// Get new data from external source
 			$this->chartData = $this->getExternalData();
+
+			// Convert for ChartJS
+			if ($this->library == 'chartjs')
+				$this->convertDataForChartJs();
 
 			// Dispatch an event to update the chart
 			$this->dispatch("update-chart-$this->uuid", $this->chartData);
@@ -123,6 +152,10 @@ trait LiveChart
 
 			// Fetch the new data from the database
 			$this->chartData = $this->getData();
+
+			// Convert for ChartJS
+			if ($this->library == 'chartjs')
+				$this->convertDataForChartJs();
 
 			// Dispatch an event to update the chart
 			$this->dispatch("update-chart-$this->uuid", $this->chartData);
@@ -137,7 +170,11 @@ trait LiveChart
     {
 		$template = Str::kebab($this->chartType);
 
-		if (view()->exists("livecharts::$template"))
+		if (view()->exists("livecharts::{$this->library}-$template"))
+        	return view("livecharts::{$this->library}-$template");
+		if (view()->exists("livecharts::{$this->library}-default-chart"))
+        	return view("livecharts::{$this->library}-default-chart");
+		elseif (view()->exists("livecharts::$template"))
         	return view("livecharts::$template");
 
         return view("livecharts::default-chart");
