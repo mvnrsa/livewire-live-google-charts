@@ -23,6 +23,7 @@ trait LiveChart
 
 	public $library;	// Chart library to use google/chartjs
 	public $labels = [];// Labels for chartjs charts
+	public $jsType;		// ChartJS type
 
 	private $query;
 	private $bindings;
@@ -115,21 +116,6 @@ trait LiveChart
 		return [ $data, $keys ];
 	}
 
-	// Convert data for ChartJS library
-	private function convertDataForChartJs()
-	{
-		$this->labels = [];
-
-		// This is a bit ugly and it assumes numeric array keys
-		unset($this->chartData[0]);
-		foreach ($this->chartData as $key => $row)
-		{
-			$this->labels[] = $row[0];
-
-			unset ($this->chartData[$key][0]);
-		}
-	}
-
 	// Dispatch event and data for chart update
 	public function updateChart()
 	{
@@ -179,4 +165,42 @@ trait LiveChart
 
         return view("livecharts::default-chart");
     }
+
+	// Convert data for ChartJS library
+	// This is a bit ugly and it assumes numeric array keys
+	private function convertDataForChartJs()
+	{
+		if (empty($this->jsType))
+		{
+			$this->jsType = explode("-", Str::kebab($this->chartType))[0];
+
+			if ($this->jsType == 'column')
+				$this->jsType = 'bar';
+			elseif ($this->jsType == 'donut')
+				$this->jsType = 'doughnut';
+		}
+		
+		$newData = [];
+		$this->labels = [];
+
+		// Initialise datasets
+		foreach ($this->chartData[0] as $key => $label)
+			if ($key > 0)
+				$newData[$key-1] = [ 'label'=>$label, 'borderWidth'=>$this->options['borderWidth'] ?? 1 ];
+
+		// Convert actual data
+		unset($this->chartData[0]);
+		foreach ($this->chartData as $rowPos => $row)
+		{
+			$this->labels[] = $row[0];
+
+			unset($this->chartData[$rowPos][0]);
+
+			foreach ($row as $colPos=> $val)
+				if ($colPos > 0)
+					$newData[$colPos-1]['data'][$rowPos-1] = $val;
+		}
+
+		$this->chartData = $newData;
+	}
 }
