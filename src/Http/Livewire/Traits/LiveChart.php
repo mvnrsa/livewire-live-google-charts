@@ -180,6 +180,9 @@ trait LiveChart
 			elseif ($this->jsType == 'donut')
 				$this->jsType = 'doughnut';
 		}
+
+		if (in_array($this->jsType,[ 'pie', 'doughnut' ]))
+			return $this->convertPieDataForChartJs();
 		
 		$newData = [];
 		$this->labels = [];
@@ -211,6 +214,26 @@ trait LiveChart
 				if ($colPos > 0)
 					$newData[$colPos-1]['data'][$rowPos-1] = $val;
 		}
+
+		$this->chartData = $newData;
+	}
+
+	// Convert data dfor pie and donut charts
+	// It's aa bit less ugly
+	private function convertPieDataForChartJs()
+	{
+		$newData = [];
+		$collection = collect($this->chartData);
+
+		$this->labels = $collection->pluck(0)->toArray();
+
+		// Dataset
+		$newData = [ [ "label" => $this->title, "data" => $collection->pluck(1)->toArray() ] ];
+
+		// Colors
+		if (is_array($this->colors))
+			foreach ($newData[0]["data"] as $pos => $value)
+				$newData[0]['backgroundColor'][$pos] = $this->colors[$pos%count($this->colors)];
 
 		$this->chartData = $newData;
 	}
