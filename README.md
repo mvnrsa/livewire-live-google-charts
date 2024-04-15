@@ -70,14 +70,15 @@ See [EXTERNAL](EXTERNAL.md) for more details.
 $chartOptions = [ 'library'=>'chartjs', 'title'=>'Chart Title', 'builder'=>$builder,
                   'poll'=>2, 'width'=>500, height=>250, /* ... */ ];
 ```
-- library selects which charting library to use - google/chartjs
-- title should be obvious - leave empty for no title inside the chart
-- builder is the builder instance (without `->get()`!)
-- poll is the poll interval in seconds - **0 means no polling/refresh** it will just draw the chart once
-- width and height can be anything that HTML will understand - px, %, em, etc.
-- colors provide a color pallette as an array of colors
-- is3D (true/false) make some charts 3D
-- pieHole (0.0 to 1.0) controls the relative size of the pie hole for donut charts
+- `library` selects which charting library to use - google/chartjs
+- `title` should be obvious - leave empty for no title inside the chart
+- `builder` is the builder instance (without `->get()`!)
+- `poll` is the poll interval in seconds - **0 means no polling/refresh** it will just draw the chart once
+- `width` and height can be anything that HTML will understand - px, %, em, etc.
+- `colors` provide a color pallette as an array of colors
+- `is3D` (true/false) make some charts 3D
+- `pieHole` (0.0 to 1.0) controls the relative size of the pie hole for donut charts
+- `jsTypes` is an array of series types for mixed series ChartJS charts
 
 Most of the options have sensible defaults from the config file and can be left out.
 
