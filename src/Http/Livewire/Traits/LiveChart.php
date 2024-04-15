@@ -13,6 +13,21 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 trait LiveChart
 {
+    public $title = "";
+    public $chartData = [];
+    public $height;
+    public $width;
+    public $column1;
+    public $column2;
+    public $options;
+    public $optionsArray;
+    
+    // public $actions;
+    // public $events;
+    // public $printable = false;
+    // public $printButtonText = 'Print';
+
+    public $viewMode;
 	public $poll;		// Default is no refresh
 	public $uuid;		// Need a fixed, unique id for every chart for updates
 	public $builder;	// Must be public to auto set from template unfortunately
@@ -38,17 +53,50 @@ trait LiveChart
 	// Initialise the uuid, poll interval and data
 	public function mount()
 	{
-		parent::mount();
+		// parent::mount();
 
-		// Set uuid, chartId, chartType and printButtonText
+        $newOptions = [
+            'title' => $this->title,
+        ];
+
+		// Light / Dark mode for Google
+        if(!is_null($this->viewMode))
+		{
+            if($this->viewMode == 'light')
+            {
+                $newOptions["backgroundColor"]["fill"] = config('livecharts.lightmodeBackground', 'transparent');
+                $newOptions["hAxis"]["titleTextStyle"]["color"] = config('livecharts.lightmodeForeground', '#000000');
+                $newOptions["vAxis"]["titleTextStyle"]["color"] = config('livecharts.lightmodeForeground', '#000000');
+                $newOptions["legend"]["textStyle"]["color"] = config('livecharts.lightmodeForeground', '#000000');
+            }
+			elseif($this->viewMode == 'dark')
+			{
+                $newOptions["backgroundColor"]["fill"] = config('livecharts.darkmodeBackground', 'transparent');
+                $newOptions["hAxis"]["titleTextStyle"]["color"] = config('livecharts.darkmodeForeground', '#ffffff');
+                $newOptions["vAxis"]["titleTextStyle"]["color"] = config('livecharts.darkmodeForeground', '#ffffff');
+                $newOptions["legend"]["textStyle"]["color"] = config('livecharts.darkmodeForeground', '#ffffff');
+            }
+        }
+
+		// Width and Height
+        if(!is_null($this->height))
+            $newOptions["height"] = $this->height;
+        if(!is_null($this->width))
+            $newOptions["width"] = $this->width;
+
+		// Combine options
+        if(!is_null($this->options) && is_array($this->options))
+            foreach($this->options as $key => $value)
+                $newOptions[$key] = $value;
+
+		// Set uuid, chartType and printButtonText
 		$this->uuid = str_replace("-","_",Str::uuid());	// uuid() alone throws exception - livewire type not supported
-		$this->chartId = $this->uuid;
 		$this->chartType = class_basename($this);
 		$this->printButtonText = trans('Print');
 
 		// Failsafe - in case no or non numeric poll interval was passed from template
 		if (!is_numeric($this->poll))
-			$this->poll = config('livecharts.default_poll',2);
+			$this->poll = config('livecharts.defaults.poll',2);
 
 		// Chart data
 		if (method_exists($this,"getExternalData"))
@@ -87,7 +135,7 @@ trait LiveChart
 		}
 
 		// Chart library
-		$this->library = strtolower($this->library ?? config('livecharts.default_library','google'));
+		$this->library = strtolower($this->library ?? config('livecharts.defaults.library','google'));
 
 		// Convert for ChartJS
 		if ($this->library == 'chartjs')

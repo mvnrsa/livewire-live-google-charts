@@ -3,7 +3,6 @@
     "description": "Live Google Charts for Laravel Livewire 3 (Auto refresh/poll)",
     "type": "library",
     "require": {
-        "helvetitec/lagoon-charts": "^2.2"
     },
     "license": "MIT",
     "autoload": {

@@ -6,9 +6,9 @@ use Str;
 use Exception;
 use Livewire\Component;
 use mvnrsa\LiveCharts\Http\Livewire\Traits\LiveChart;
-use Helvetitec\LagoonCharts\Http\Livewire\CandlestickChart as ParentChart;
+// use Helvetitec\LagoonCharts\Http\Livewire\CandlestickChart as ParentChart;
 
-class CandlestickChart extends ParentChart
+class CandlestickChart extends Component // ParentChart
 {
 	use LiveChart;
 

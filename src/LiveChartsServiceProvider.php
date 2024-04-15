@@ -18,7 +18,7 @@ class LiveChartsServiceProvider extends ServiceProvider
 {
 	public function register()
 	{
-		$this->mergeConfigFrom(__DIR__.'/../config/config.php', 'livecharts');
+		$this->mergeConfigFrom(__DIR__.'/../config/livecharts.php', 'livecharts');
 	}
 
 	public function boot()
@@ -36,8 +36,8 @@ class LiveChartsServiceProvider extends ServiceProvider
 		if ($this->app->runningInConsole())
 		{
 			$this->publishes([
-				__DIR__.'/../config/config.php' => config_path('livecharts.php'),
-			], 'config');
+				__DIR__.'/../config/livecharts.php' => config_path('livecharts.php'),
+			], 'livecharts');
 		}
 	}
 }
