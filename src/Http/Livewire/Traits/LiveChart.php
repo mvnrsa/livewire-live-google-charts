@@ -227,6 +227,8 @@ trait LiveChart
 				$this->jsType = 'bar';
 			elseif ($this->jsType == 'donut')
 				$this->jsType = 'doughnut';
+			elseif ($this->jsType == 'area')
+				$this->jsType = 'line';
 		}
 
 		if (in_array($this->jsType,[ 'pie', 'doughnut' ]))
@@ -247,6 +249,8 @@ trait LiveChart
 				{
 					$newData[$key-1]['backgroundColor'] = $this->colors[$key%count($this->colors)];
 					$newData[$key-1]['borderColor'] = $newData[$key-1]['backgroundColor'];
+					if ($this->chartType == 'AreaChart')
+						$newData[$key-1]['fill'] = 'origin';
 				}
 			}
 
