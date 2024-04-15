@@ -1,10 +1,10 @@
 # Live Charts for Laravel Livewire 3
 
+This package now supports both the **Google** and **ChartJS** charting libraries, even both on the same page.
+
 ## Live?
 
 **Live** as in the charts will **auto refresh** at a specified poll interval using the **Livewire wire:poll** attribute.
-
-This package now supports both the **Google** and **ChartJS** charting libraries, or both on the same page.
 
 Note that the component is only drawn the first time and thereafter only the data is updated on every poll, so the data transferred for polling is significantly less and the chart is just **updated**, not recreated every time.
 
