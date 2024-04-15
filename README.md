@@ -93,6 +93,7 @@ Most of the options have sensible defaults from the config file and can be left 
 - Column
 - Line
 - Area
+- Multi/Mixed Bar, Line, Area (ChartJS only)
 - Candlestick (Google only)
 
 Just replace pie in the blade example above with donut, bar, column, etc.
@@ -105,6 +106,12 @@ Any color that will work in HTML will work eg:
 ```
 $colors = [ 'red,'#00ff00','#0000ff','pink','cyan' ];
 $chartOptions = [ 'title'=>'Chart Title', 'builder'=>$builder, 'poll'=>2, 'colors'=>$colors ];
+```
+
+## Mixed/Multi chart types
+For a ChartJS chart with mixed bar/line/area data series just add a `jsTypes` array with the types.
+```
+$chartOptions = [ ... 'jsTypes' => [ 'bar', 'line', 'area' ] ];
 ```
 
 ## Other Library Options

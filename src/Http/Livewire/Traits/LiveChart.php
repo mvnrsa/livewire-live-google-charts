@@ -39,6 +39,7 @@ trait LiveChart
 	public $library;	// Chart library to use google/chartjs
 	public $labels = [];// Labels for chartjs charts
 	public $jsType;		// ChartJS type
+	public $jsTypes;	// ChartJS types for mixed charts
 
 	private $query;
 	private $bindings;
@@ -243,8 +244,10 @@ trait LiveChart
 			{
 				$newData[$key-1] = [
 									'label'=>$label,
+									'order'=>$key-1,
 									'borderWidth'=>$this->options['borderWidth'] ?? config('livecharts.borderWidth',1),
 								   ];
+				// Colors
 				if (is_array($this->colors))
 				{
 					$newData[$key-1]['backgroundColor'] = $this->colors[$key%count($this->colors)];
@@ -252,6 +255,10 @@ trait LiveChart
 					if ($this->chartType == 'AreaChart')
 						$newData[$key-1]['fill'] = 'origin';
 				}
+
+				// Multi/Mixed type
+				if (isset($this->jsTypes[$key-1]))
+					$newData[$key-1]['type'] = strtolower($this->jsTypes[$key-1]);
 			}
 
 		// Convert actual data
