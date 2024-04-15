@@ -89,6 +89,7 @@ trait LiveChart
         if(!is_null($this->options) && is_array($this->options))
             foreach($this->options as $key => $value)
                 $newOptions[$key] = $value;
+		$this->optionsArray = $newOptions;
 
 		// Set uuid, chartType and printButtonText
 		$this->uuid = str_replace("-","_",Str::uuid());	// uuid() alone throws exception - livewire type not supported
@@ -124,7 +125,6 @@ trait LiveChart
 		if ($this->is3D === true)
 			$this->optionsArray['is3D'] = true;
 			
-
 		// DonutChart
 		if (class_basename($this) == 'DonutChart')
 		{
